@@ -13,13 +13,25 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors({
-   origin: process.env.NODE_ENV === "production" 
-            ? "https://mchatapp.com"
-            : "http://localhost:4000",
-  methods: ["GET", "POST"],        // allowed methods
-  credentials: true               // allow cookies/auth headers if needed
+const allowedOrigins = [
+  "https://mychatapp-two.vercel.app",
+  "https://mychatapp-git-main-monishjns-projects.vercel.app",
+  "https://mychatapp-9c736ojtx-monishjns-projects.vercel.app",
+  "http://localhost:4000"   // for dev
+];
 
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    
+    return callback(null, false);  // safer than throwing
+  },
+  methods: ["GET", "POST"],
+  credentials: true
 }));
 
 
