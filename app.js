@@ -34,7 +34,12 @@ app.use(cors({
   credentials: true
 }));
 
-app.options("*", cors());
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 // Routes
 app.use("/api",authRoutes);
