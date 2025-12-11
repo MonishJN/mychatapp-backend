@@ -4,7 +4,14 @@ import { redis,redisQueue } from "../server.js";
 import { markOnline,markOffline } from "../backUtils/redisFunctions.js";
 
 
-
+ const allowedOrigins = [
+  "https://mychatapp-two.vercel.app",
+  "https://mychatapp-git-main-monishjns-projects.vercel.app",
+  "https://mychatapp-9c736ojtx-monishjns-projects.vercel.app",
+  // Add your local port here, which the Vercel app will be connecting to
+  "http://localhost:5000", 
+  "http://localhost:4000" // Keep this if you also run your frontend locally
+];
 
 
 
@@ -50,8 +57,21 @@ const socketSet = new Map();          //- (ws → Set<chatid>)
 
 
 export function initWebSocket(server) {
-  const wss = new WebSocketServer({ server });
+  const wss = new WebSocketServer({ server,
+    verifyClient: function (info, callback) {
+        // 'info.origin' contains the domain of the client attempting to connect
+        const origin = info.origin;
 
+        if (allowedOrigins.includes(origin)) {
+            // Origin is allowed
+            callback(true);
+        } else {
+            // Origin is NOT allowed
+            console.log(`Blocked WebSocket connection attempt from unauthorized origin: ${origin}`);
+            callback(false, 403, 'Forbidden');
+        }
+    }
+   });
   wss.on("connection", (ws) => {
     ws.userid=null;
     ws.on("message", async (message) => {

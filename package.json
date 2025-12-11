@@ -22,5 +22,8 @@
     "sharp": "^0.34.5",
     "uuid": "^13.0.0",
     "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/cookie": "^0.6.0"
   }
 }

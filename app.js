@@ -14,11 +14,35 @@ const app = express();
 // Middleware
 app.use(express.json());
 
+// app.use(cors({
+//   origin: process.env.NODE_ENV === "production" ? 
+//     "https://mychatapp-two.vercel.app" : "http://localhost:4000",
+//   methods: ["GET", "POST"],
+//   credentials: true
+// }));
+
+// app.js
+
+ const allowedOrigins = [
+  "https://mychatapp-two.vercel.app",
+  "https://mychatapp-git-main-monishjns-projects.vercel.app",
+  "https://mychatapp-9c736ojtx-monishjns-projects.vercel.app",
+  // Add your local port here, which the Vercel app will be connecting to
+  "http://localhost:5000", 
+  "http://localhost:4000" // Keep this if you also run your frontend locally
+];
+
 app.use(cors({
-  origin: env.process.NODE_ENV === "production" ? 
-    "https://mychatapp-two.vercel.app" : "http://localhost:4000",
-  methods: ["GET", "POST"],
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "OPTIONS"], 
   credentials: true
+}));
+
+// Also ensure the path access bug is fixed (use process.env):
+app.use(cors({
+    origin: process.env.NODE_ENV === "production" ? 
+        allowedOrigins[0] : allowedOrigins, // Or just use 'allowedOrigins' array directly
+    // ...
 }));
 
 
