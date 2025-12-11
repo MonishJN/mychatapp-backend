@@ -38,12 +38,7 @@ app.use(cors({
   credentials: true
 }));
 
-// Also ensure the path access bug is fixed (use process.env):
-app.use(cors({
-    origin: process.env.NODE_ENV === "production" ? 
-        allowedOrigins[0] : allowedOrigins, // Or just use 'allowedOrigins' array directly
-    // ...
-}));
+
 
 
 // Routes
