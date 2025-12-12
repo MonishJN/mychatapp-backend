@@ -48,6 +48,7 @@ router.post("/register", async (req, res) => {
 
 // Login route
 router.post("/login",async (req, res) => {
+  console.log("LOGIN HIT")
   const { email, password } = req.body;
   try{
     const [rows] = await pool.query("SELECT password as hp,user_id FROM users WHERE email = ?", [email]);

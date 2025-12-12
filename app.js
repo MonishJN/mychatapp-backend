@@ -25,6 +25,7 @@ export const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
+     console.log("CORS CHECK:", origin); 
     if (!origin) return callback(null, true); // mobile apps, curl, etc.
 
     if (
