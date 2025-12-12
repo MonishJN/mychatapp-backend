@@ -23,7 +23,7 @@ app.use(express.json());
 
 // app.js
 
- const allowedOrigins = [
+export const allowedOrigins = [
   "https://mychatapp-two.vercel.app",
   "https://mychatapp-git-main-monishjns-projects.vercel.app",
   "https://mychatapp-9c736ojtx-monishjns-projects.vercel.app",
@@ -33,8 +33,19 @@ app.use(express.json());
 ];
 
 app.use(cors({
-  origin: allowedOrigins,
-  methods: ["GET", "POST", "OPTIONS"], 
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // mobile apps, curl, etc.
+
+    if (
+      allowedOrigins.includes(origin) ||
+      /^https:\/\/mychatapp-.*\.vercel\.app$/.test(origin)  // Allow all Vercel previews
+    ) {
+      callback(null, true);
+    } else {
+      console.log("HTTP CORS BLOCKED:", origin);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
 
