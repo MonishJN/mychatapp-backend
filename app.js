@@ -38,7 +38,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.options('/(.*)', (req, res) => {
+app.options('/:path(.*)', (req, res) => {
     res.sendStatus(204);
 });
 
