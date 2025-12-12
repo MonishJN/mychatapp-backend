@@ -11,17 +11,8 @@ import notificationRoutes from "./routes/notificationRoutes.js";
 const app = express();
 
 
-// Middleware
-app.use(express.json());
 
-// app.use(cors({
-//   origin: process.env.NODE_ENV === "production" ? 
-//     "https://mychatapp-two.vercel.app" : "http://localhost:4000",
-//   methods: ["GET", "POST"],
-//   credentials: true
-// }));
 
-// app.js
 
 export const allowedOrigins = [
   "https://mychatapp-two.vercel.app",
@@ -49,6 +40,9 @@ app.use(cors({
   credentials: true
 }));
 
+app.options("*", cors());
+
+app.use(express.json());
 
 
 // Routes

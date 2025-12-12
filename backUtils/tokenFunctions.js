@@ -31,6 +31,11 @@ export async function generateToken(userid,res) {
 
 
 export function verifyToken(req,res,next) {
+
+    if (req.method === "OPTIONS") {
+        return next();
+    }
+
     try{
         const cookies = cookie.parse(req.headers.cookie || '');
         const accessToken = cookies.accessToken;
