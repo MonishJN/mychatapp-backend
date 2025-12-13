@@ -46,7 +46,10 @@ app.use(cors({
 app.use(express.json());
 
 
-Routes
+//Routes
+app.get('/', (req, res) => {
+    res.status(200).send('Server Healthy');
+});
 app.use("/api",authRoutes);
 app.use("/api/friends",friendRoutes);
 app.use("/api",searchRoutes);
