@@ -28,14 +28,18 @@ export const redis = createClient({ url: process.env.REDIS_URL });
 
 // Async init function to connect them
 async function initRedis() {
-  redisQueue.on("error", (err) => console.error("RedisQueue Client Error", err));
-  await redisQueue.connect();
+  try{
+    redisQueue.on("error", (err) => console.error("RedisQueue Client Error", err));
+    await redisQueue.connect();
 
-  redis.on("error", (err) => console.error("Redis Client Error", err));
-  await redis.connect();
+    redis.on("error", (err) => console.error("Redis Client Error", err));
+    await redis.connect();
 
-  // Start queue processor AFTER Redis is ready
-  startQueueProcessor(redisQueue);
+    // Start queue processor AFTER Redis is ready
+    startQueueProcessor(redisQueue);
+  }catch(err){
+    console.error("Redis connection error:", err);
+  }
 }
 
 // Kick off Redis init

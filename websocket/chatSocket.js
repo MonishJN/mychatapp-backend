@@ -68,16 +68,17 @@ export function initWebSocket(server) {
   const wss = new WebSocketServer({ 
         server,
         // TEMPORARILY REPLACE YOUR COMPLEX LOGIC WITH A SIMPLE ACCEPT FUNCTION
-        verifyClient: function (info, callback) {
-            // WARNING: This allows ALL origins for debugging purposes.
-            // We will revert this after the test.
+        // verifyClient: function (info, callback) {
+        //     // WARNING: This allows ALL origins for debugging purposes.
+        //     // We will revert this after the test.
             
-            // Log the origin for verification in Railway logs
-            console.log(`[WS DEBUG] Allowing connection from origin: ${info.origin}`);
+        //     // Log the origin for verification in Railway logs
+        //     console.log(`[WS DEBUG] Allowing connection from origin: ${info.origin}`);
             
-            // Force acceptance for all origins
-            callback(true);
-        }
+        //     // Force acceptance for all origins
+        //     callback(true);
+        // }
+        verifyClient: (info, callback) => { callback(true); }
     });
   wss.on("connection", (ws) => {
     ws.userid=null;

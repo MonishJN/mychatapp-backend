@@ -36,12 +36,12 @@ const app = express();
 //   },
 //   credentials: true
 // }));
-app.use(cors({
-    origin: '*', // Allows ALL origins
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true // Set to true if you are passing cookies
-}));
-
+// app.use(cors({
+//     origin: '*', // Allows ALL origins
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     credentials: true // Set to true if you are passing cookies
+// }));
+app.use(cors({ origin: '*', credentials: true }));
 
 app.use(express.json());
 
