@@ -1,6 +1,6 @@
 import { WebSocketServer } from "ws";
 import pool from "../config/db.js";
-// import { allowedOrigins } from "../app.js";
+import { allowedOrigins } from "../app.js";
 import { redis,redisQueue } from "../server.js";
 import { markOnline,markOffline } from "../backUtils/redisFunctions.js";
 
@@ -50,36 +50,22 @@ const socketSet = new Map();          //- (ws → Set<chatid>)
 
 
 export function initWebSocket(server) {
-  // const wss = new WebSocketServer({ server,
-  //   verifyClient: function (info, callback) {
-  //       // 'info.origin' contains the domain of the client attempting to connect
-  //       const origin = info.origin;
+  const wss = new WebSocketServer({ server,
+    verifyClient: function (info, callback) {
+        // 'info.origin' contains the domain of the client attempting to connect
+        const origin = info.origin;
 
-  //      if (allowedOrigins.includes(origin) || /^https:\/\/mychatapp-.*\.vercel\.app$/.test(origin)) {
-  //           // Origin is allowed
-  //           callback(true);
-  //       } else {
-  //           // Origin is NOT allowed
-  //           console.log(`Blocked WebSocket connection attempt from unauthorized origin: ${origin}`);
-  //           callback(false, 403, 'Forbidden');
-  //       }
-  //   }
-  //  });
-  const wss = new WebSocketServer({ 
-        server,
-        // TEMPORARILY REPLACE YOUR COMPLEX LOGIC WITH A SIMPLE ACCEPT FUNCTION
-        // verifyClient: function (info, callback) {
-        //     // WARNING: This allows ALL origins for debugging purposes.
-        //     // We will revert this after the test.
-            
-        //     // Log the origin for verification in Railway logs
-        //     console.log(`[WS DEBUG] Allowing connection from origin: ${info.origin}`);
-            
-        //     // Force acceptance for all origins
-        //     callback(true);
-        // }
-        verifyClient: (info, callback) => { callback(true); }
-    });
+       if (allowedOrigins.includes(origin) || /^https:\/\/mychatapp-.*\.vercel\.app$/.test(origin)) {
+            // Origin is allowed
+            callback(true);
+        } else {
+            // Origin is NOT allowed
+            console.log(`Blocked WebSocket connection attempt from unauthorized origin: ${origin}`);
+            callback(false, 403, 'Forbidden');
+        }
+    }
+   });
+
   wss.on("connection", (ws) => {
     ws.userid=null;
     ws.on("message", async (message) => {

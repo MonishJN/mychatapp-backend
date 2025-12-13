@@ -10,38 +10,34 @@ import notificationRoutes from "./routes/notificationRoutes.js";
 
 const app = express();
 
-// export const allowedOrigins = [
-//   "https://mychatapp-two.vercel.app",
-//   "https://mychatapp-git-main-monishjns-projects.vercel.app",
-//   "https://mychatapp-9c736ojtx-monishjns-projects.vercel.app",
-//   // Add your local port here, which the Vercel app will be connecting to
-//   "http://localhost:5000", 
-//   "http://localhost:4000" // Keep this if you also run your frontend locally
-// ];
+export const allowedOrigins = [
+  "https://mychatapp-two.vercel.app",
+  "https://mychatapp-git-main-monishjns-projects.vercel.app",
+  "https://mychatapp-9c736ojtx-monishjns-projects.vercel.app",
+  // Add your local port here, which the Vercel app will be connecting to
+  "http://localhost:5000", 
+  "http://localhost:4000" // Keep this if you also run your frontend locally
+];
 
-// app.use(cors({
-//   origin: function (origin, callback) {
-//      console.log("CORS CHECK:", origin); 
-//     if (!origin) return callback(null, true); // mobile apps, curl, etc.
+app.use(cors({
+  origin: function (origin, callback) {
+     console.log("CORS CHECK:", origin); 
+    if (!origin) return callback(null, true); // mobile apps, curl, etc.
 
-//     if (
-//       allowedOrigins.includes(origin) ||
-//       /^https:\/\/mychatapp-.*\.vercel\.app$/.test(origin)  // Allow all Vercel previews
-//     ) {
-//       callback(null, true);
-//     } else {
-//       console.log("HTTP CORS BLOCKED:", origin);
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   credentials: true
-// }));
-// app.use(cors({
-//     origin: '*', // Allows ALL origins
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     credentials: true // Set to true if you are passing cookies
-// }));
-app.use(cors({ origin: '*', credentials: true }));
+    if (
+      allowedOrigins.includes(origin) ||
+      /^https:\/\/mychatapp-.*\.vercel\.app$/.test(origin)  // Allow all Vercel previews
+    ) {
+      callback(null, true);
+    } else {
+      console.log("HTTP CORS BLOCKED:", origin);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
+
 
 app.use(express.json());
 
