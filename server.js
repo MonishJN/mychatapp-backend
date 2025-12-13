@@ -5,7 +5,7 @@ import { createServer } from "http";
 // import https from "https";
 // import fs from "fs";
 import app from "./app.js";
-import { initWebSocket,startQueueProcessor } from "./websocket/chatSocket.js";
+// import { initWebSocket,startQueueProcessor } from "./websocket/chatSocket.js";
 import { createClient } from "redis";
 
 
@@ -47,7 +47,7 @@ initRedis();
 
 
 // Init WebSocket
-initWebSocket(server);
+// initWebSocket(server);
 
 server.listen(PORT, () => {
   console.log(`🚀 Server running on ${PORT}`);

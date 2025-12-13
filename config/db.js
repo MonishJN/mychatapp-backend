@@ -18,7 +18,7 @@ import mysql from 'mysql2/promise';
 
 
 //railway database setup
-const pool = mysql.createPool(process.env.DATABASE_URL);
+// const pool = mysql.createPool(process.env.DATABASE_URL);
 
 
 export default pool;
