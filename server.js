@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { createServer } from "http";
+// import https from "https";
+// import fs from "fs";
 import app from "./app.js";
 import { initWebSocket,startQueueProcessor } from "./websocket/chatSocket.js";
 import { createClient } from "redis";
@@ -9,7 +11,15 @@ import { createClient } from "redis";
 
 
 const PORT = process.env.PORT || 5000;
+
+// Load the certificate files (change paths/names if needed)
+// const options = {
+//   key: fs.readFileSync('localhost-key.pem'), 
+//   cert: fs.readFileSync('localhost.pem')
+// };
+
 const server = createServer(app);
+// const server = https.createServer(options, app);
 
 
 // Declare Redis clients
