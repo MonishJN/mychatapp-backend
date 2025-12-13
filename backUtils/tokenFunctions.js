@@ -43,11 +43,17 @@ export function verifyToken(req,res,next) {
             return res.status(401).json({ code:"no token" });
         }
         jwt.verify(accessToken, process.env.accessTokenSecretKey, (err, decoded) => {
-        if (err) { 
-            return res.status(401).json({ code:"exp token" }); 
-        }
-        req.userId = decoded.userId;
-        next();
+            try{    
+                if (err) { 
+                    return res.status(401).json({ code:"exp token" }); 
+                }
+                req.userId = decoded.userId;
+                next();
+            }catch (innerErr) {
+                // If something crashes *here*, handle it.
+                console.error("❌ Inner error:", innerErr);
+                return res.status(500).json({ message: "Internal server error" });
+            }
         });
     }catch(err){
         console.error("❌ Token verification error:", err);
