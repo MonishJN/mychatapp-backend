@@ -1,6 +1,5 @@
 import { WebSocketServer } from "ws";
 import pool from "../config/db.js";
-import { allowedOrigins } from "../app.js";
 import { redis,redisQueue } from "../server.js";
 import { markOnline,markOffline } from "../backUtils/redisFunctions.js";
 
