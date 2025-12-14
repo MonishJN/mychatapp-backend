@@ -50,26 +50,22 @@ const socketSet = new Map();          //- (ws → Set<chatid>)
 
 export function initWebSocket(server) {
 
-  const wss = new WebSocketServer({
-  server,
-  verifyClient: function (info, callback) {
-    const origin = info.origin;
+  const wss = new WebSocketServer({server});
 
-    if (origin === 'https://mychatapp-two.vercel.app') {
-      // Origin is allowed
-      callback(true);
-    } else {
-      // Origin is NOT allowed
-      console.log(
-        `Blocked WebSocket connection attempt from unauthorized origin: ${origin}`
-      );
-      callback(false, 403, 'Forbidden');
-    }
-  }
-});
 
 
   wss.on("connection", (ws) => {
+     const origin = req.headers.origin;
+
+    // Allow browser WS
+    if (
+      origin &&
+      origin !== "https://mychatapp-two.vercel.app"
+    ) {
+      console.log(`Blocked WS from origin: ${origin}`);
+      ws.close(1008, "Forbidden");
+      return;
+    }
     ws.userid=null;
     ws.on("message", async (message) => {
       try {
