@@ -6,11 +6,18 @@ import app from "./app.js";
 import { initWebSocket,startQueueProcessor } from "./websocket/chatSocket.js";
 import { createClient } from "redis";
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
+if (!PORT) {
+  throw new Error("PORT not provided by Railway");
+}
 
 const server = createServer(app);
 
-server.listen(PORT,"0.0.0.0", () => {
+// server.listen(PORT,"0.0.0.0", () => {
+//   console.log(`🚀 Server running on ${PORT}`);
+// });
+
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Server running on ${PORT}`);
 });
 
