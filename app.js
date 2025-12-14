@@ -12,6 +12,7 @@ const app = express();
 
 app.use(cors({
   origin: "https://mychatapp-two.vercel.app",
+  methods: ["GET","POST"],
   credentials: true
 }));
 
