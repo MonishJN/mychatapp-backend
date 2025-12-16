@@ -15,10 +15,16 @@ import mysql from 'mysql2/promise';
 //   queueLimit: 0
 // });
 
+// Railway setup
+const pool = mysql.createPool({
+  uri: process.env.DATABASE_URL,
+  waitForConnections: true,
+  connectionLimit: 5,
+  queueLimit: 0,
+});
 
 
-//railway database setup
-const pool = mysql.createPool(process.env.DATABASE_URL);
+
 
 
 export default pool;
